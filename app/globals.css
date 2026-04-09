@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── shadcn CSS variables ── */
+@layer base {
+  :root {
+    --background:           35 60% 95%;
+    --foreground:           20 40% 10%;
+    --card:                 35 55% 97%;
+    --card-foreground:      20 40% 10%;
+    --popover:              35 55% 97%;
+    --popover-foreground:   20 40% 10%;
+    --primary:              25 45% 45%;
+    --primary-foreground:   35 60% 95%;
+    --secondary:            30 20% 85%;
+    --secondary-foreground: 20 40% 10%;
+    --muted:                30 20% 88%;
+    --muted-foreground:     20 15% 45%;
+    --accent:               30 20% 85%;
+    --accent-foreground:    20 40% 10%;
+    --destructive:          0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border:               30 25% 80%;
+    --input:                30 25% 80%;
+    --ring:                 25 45% 45%;
+    --radius:               0.5rem;
+  }
+
+  .dark {
+    --background:           20 40% 8%;
+    --foreground:           35 60% 92%;
+    --card:                 20 35% 11%;
+    --card-foreground:      35 60% 92%;
+    --primary:              25 55% 55%;
+    --primary-foreground:   20 40% 8%;
+    --secondary:            20 20% 18%;
+    --secondary-foreground: 35 60% 92%;
+    --muted:                20 20% 15%;
+    --muted-foreground:     30 15% 55%;
+    --accent:               20 20% 18%;
+    --accent-foreground:    35 60% 92%;
+    --border:               20 20% 18%;
+    --input:                20 20% 18%;
+    --ring:                 25 55% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* ── Scroll reveal ── */
+.reveal,
+.reveal-left,
+.reveal-right {
+  opacity: 0;
+}
+.reveal {
+  transform: translateY(28px);
+  transition: opacity 0.72s cubic-bezier(0.16,1,0.3,1),
+              transform 0.72s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal-left {
+  transform: translateX(-32px);
+  transition: opacity 0.72s cubic-bezier(0.16,1,0.3,1),
+              transform 0.72s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal-right {
+  transform: translateX(32px);
+  transition: opacity 0.72s cubic-bezier(0.16,1,0.3,1),
+              transform 0.72s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal.visible,
+.reveal-left.visible,
+.reveal-right.visible {
+  opacity: 1;
+  transform: translate(0);
+}
+.delay-1 { transition-delay: 0.10s; }
+.delay-2 { transition-delay: 0.20s; }
+.delay-3 { transition-delay: 0.32s; }
+.delay-4 { transition-delay: 0.44s; }
+
+/* ── Shimmer on cards ── */
+.card-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.card-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.18) 50%, transparent 60%);
+  transform: translateX(-100%);
+  transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+  pointer-events: none;
+}
+.card-shimmer:hover::after { transform: translateX(100%); }
+
+/* ── Tactile button press ── */
+.btn-tactile:active {
+  transform: scale(0.975) translateY(1px);
+}
+
+/* ── Spotlight card border ── */
+.spotlight-card {
+  border: 1px solid rgba(176,120,64,0.18);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.spotlight-card:hover {
+  border-color: rgba(176,120,64,0.55);
+  box-shadow: 0 8px 32px -8px rgba(176,120,64,0.20);
+}
+
+/* ── Loader spinner (used in SplineScene fallback) ── */
+.loader {
+  width: 32px;
+  height: 32px;
+  border: 2px solid rgba(176,120,64,0.2);
+  border-top-color: #B07840;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

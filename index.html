@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mórula — Specialty Coffee</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            espresso:  '#1C1410',
+            roast:     '#2E1F14',
+            amber:     '#B07840',
+            amberLight:'#C99050',
+            cream:     '#F5EDD6',
+            creamDark: '#EDE0C4',
+            stone:     '#8C7B6B',
+            stoneLight:'#BFB0A3',
+          },
+          fontFamily: {
+            sans:   ['Outfit', 'sans-serif'],
+            serif:  ['"DM Serif Display"', 'serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    /* ── Fade-in reveal ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.72s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.72s cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-32px);
+      transition: opacity 0.72s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.72s cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(32px);
+      transition: opacity 0.72s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.72s cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+    /* ── Stagger helpers ── */
+    .delay-1 { transition-delay: 0.10s; }
+    .delay-2 { transition-delay: 0.20s; }
+    .delay-3 { transition-delay: 0.32s; }
+    .delay-4 { transition-delay: 0.44s; }
+
+    /* ── Float hero image ── */
+    @keyframes floatY {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-14px); }
+    }
+    .float-anim { animation: floatY 6s ease-in-out infinite; }
+
+    /* ── Marquee ── */
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .marquee-track { animation: marquee 22s linear infinite; }
+    .marquee-track:hover { animation-play-state: paused; }
+
+    /* ── Shimmer on cards ── */
+    .card-shimmer {
+      position: relative;
+      overflow: hidden;
+    }
+    .card-shimmer::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.18) 50%, transparent 60%);
+      transform: translateX(-100%);
+      transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+    }
+    .card-shimmer:hover::after { transform: translateX(100%); }
+
+    /* ── Tactile CTA press ── */
+    .btn-tactile:active { transform: scale(0.975) translateY(1px); }
+
+    /* ── Spotlight border on menu cards ── */
+    .spotlight-card {
+      position: relative;
+      border: 1px solid rgba(176,120,64,0.18);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .spotlight-card:hover {
+      border-color: rgba(176,120,64,0.55);
+      box-shadow: 0 8px 32px -8px rgba(176,120,64,0.20);
+    }
+  </style>
+</head>
+
+<body class="bg-cream font-sans text-espresso antialiased">
+
+  <!-- ══════════════════════════════════
+       NAV
+  ══════════════════════════════════ -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-cream/80 backdrop-blur-md border-b border-espresso/8">
+    <div class="max-w-7xl mx-auto px-6 md:px-10 flex items-center justify-between h-16">
+      <a href="#" class="font-serif text-xl text-espresso tracking-tight">Mórula</a>
+      <div class="hidden md:flex items-center gap-8 text-sm font-medium text-stone">
+        <a href="#about"       class="hover:text-espresso transition-colors duration-200">Nosotros</a>
+        <a href="#menu"        class="hover:text-espresso transition-colors duration-200">Menú</a>
+        <a href="#testimonios" class="hover:text-espresso transition-colors duration-200">Reseñas</a>
+      </div>
+      <a href="#menu"
+         class="btn-tactile hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-espresso text-cream text-sm font-medium
+                hover:bg-roast transition-colors duration-200">
+        Ver Menú
+      </a>
+    </div>
+  </nav>
+
+
+  <!-- ══════════════════════════════════
+       HERO — Asymmetric split-screen
+  ══════════════════════════════════ -->
+  <section class="min-h-[100dvh] grid grid-cols-1 md:grid-cols-[55%_45%] pt-16">
+
+    <!-- Left: copy -->
+    <div class="flex flex-col justify-center px-8 md:pl-16 lg:pl-24 py-16 bg-cream">
+      <p class="reveal delay-1 text-xs uppercase tracking-[0.25em] text-amber font-medium mb-6">
+        Specialty Coffee · Origen único
+      </p>
+      <h1 class="reveal delay-2 font-serif text-5xl md:text-7xl lg:text-[5.5rem] leading-[1.02] tracking-tight text-espresso max-w-[10ch]">
+        Del suelo<br />
+        <em>a tu taza,</em><br />
+        sin rodeos.
+      </h1>
+      <p class="reveal delay-3 mt-6 text-base text-stone leading-relaxed max-w-[52ch]">
+        Tostamos en pequeños lotes con granos de fincas certificadas en Etiopía, Colombia y Perú.
+        Cada sorbo lleva el trabajo de quienes cultivan el café con cuidado generacional.
+      </p>
+      <div class="reveal delay-4 mt-10 flex items-center gap-4 flex-wrap">
+        <a href="#menu"
+           class="btn-tactile inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-amber text-cream font-semibold text-sm
+                  hover:bg-amberLight transition-colors duration-200 shadow-[0_4px_20px_-4px_rgba(176,120,64,0.45)]">
+          Ver Menú
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a href="#about"
+           class="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-espresso/20 text-espresso font-medium text-sm
+                  hover:border-espresso/50 transition-colors duration-200">
+          Nuestra historia
+        </a>
+      </div>
+
+      <!-- Stat strip -->
+      <div class="reveal delay-4 mt-14 flex items-center gap-8 pt-8 border-t border-espresso/10">
+        <div>
+          <p class="text-3xl font-bold text-espresso">12</p>
+          <p class="text-xs text-stone mt-0.5">Orígenes activos</p>
+        </div>
+        <div class="h-8 w-px bg-espresso/12"></div>
+        <div>
+          <p class="text-3xl font-bold text-espresso">47k</p>
+          <p class="text-xs text-stone mt-0.5">Tazas este año</p>
+        </div>
+        <div class="h-8 w-px bg-espresso/12"></div>
+        <div>
+          <p class="text-3xl font-bold text-espresso">2017</p>
+          <p class="text-xs text-stone mt-0.5">Desde</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: image -->
+    <div class="hidden md:flex items-end justify-center bg-roast overflow-hidden relative">
+      <!-- Grain texture overlay (fixed pseudo element via inline style trick) -->
+      <div class="absolute inset-0 opacity-30"
+           style="background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22><filter id=%22n%22><feTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%224%22 stitchTiles=%22stitch%22/></filter><rect width=%22200%22 height=%22200%22 filter=%22url(%23n)%22 opacity=%220.4%22/></svg>');
+                  pointer-events:none;">
+      </div>
+
+      <div class="float-anim w-full h-full">
+        <img src="https://picsum.photos/seed/morula-hero/900/1100"
+             alt="Taza de café specialty sobre madera oscura"
+             class="w-full h-full object-cover opacity-80"
+             loading="eager" />
+      </div>
+
+      <!-- Overlay gradient -->
+      <div class="absolute inset-0 bg-gradient-to-t from-roast/70 via-transparent to-transparent pointer-events-none"></div>
+
+      <!-- Badge -->
+      <div class="absolute bottom-10 left-8 bg-cream/10 backdrop-blur-md border border-white/10
+                  shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] rounded-2xl px-5 py-4 text-cream">
+        <p class="text-xs uppercase tracking-widest text-stoneLight mb-1">Tostado de esta semana</p>
+        <p class="font-serif text-lg">Etiopía · Yirgacheffe</p>
+        <p class="text-xs text-stoneLight mt-0.5">Jazmín · Bergamota · Melocotón</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════
+       MARQUEE STRIP
+  ══════════════════════════════════ -->
+  <div class="bg-amber py-3.5 overflow-hidden select-none">
+    <div class="flex whitespace-nowrap marquee-track">
+      <!-- duplicated for seamless loop -->
+      <span class="text-cream font-medium text-sm tracking-wider mx-8">Origen único</span>
+      <span class="text-cream/50 mx-2">·</span>
+      <span class="text-cream font-medium text-sm tracking-wider mx-8">Tostado en pequeños lotes</span>
+      <span class="text-cream/50 mx-2">·</span>
+      <span class="text-cream font-medium text-sm tracking-wider mx-8">Sin intermediarios</span>
+      <span class="text-cream/50 mx-2">·</span>
+      <span class="text-cream font-medium text-sm tracking-wider mx-8">Comercio directo con fincas</span>
+      <span class="text-cream/50 mx-2">·</span>
+      <span class="text-cream font-medium text-sm tracking-wider mx-8">Certificado SCA</span>
+      <span class="text-cream/50 mx-2">·</span>
+      <span class="text-cream font-medium text-sm tracking-wider mx-8">Origen único</span>
+      <span class="text-cream/50 mx-2">·</span>
+      <span class="text-cream font-medium text-sm tracking-wider mx-8">Tostado en pequeños lotes</span>
+      <span class="text-cream/50 mx-2">·</span>
+      <span class="text-cream font-medium text-sm tracking-wider mx-8">Sin intermediarios</span>
+      <span class="text-cream/50 mx-2">·</span>
+      <span class="text-cream font-medium text-sm tracking-wider mx-8">Comercio directo con fincas</span>
+      <span class="text-cream/50 mx-2">·</span>
+      <span class="text-cream font-medium text-sm tracking-wider mx-8">Certificado SCA</span>
+      <span class="text-cream/50 mx-2">·</span>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       ABOUT — Offset asymmetric layout
+  ══════════════════════════════════ -->
+  <section id="about" class="bg-cream py-24 md:py-36 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6 md:px-10">
+
+      <div class="grid grid-cols-1 md:grid-cols-[1fr_1.1fr] gap-12 md:gap-20 items-center">
+
+        <!-- Left: Image offset -->
+        <div class="relative reveal-left">
+          <img src="https://picsum.photos/seed/morula-farm/700/860"
+               alt="Barista revisando granos verdes de café"
+               class="w-full rounded-3xl object-cover aspect-[4/5]" />
+          <!-- Floating accent card -->
+          <div class="absolute -bottom-6 -right-4 md:-right-8 bg-espresso text-cream rounded-2xl px-6 py-5
+                      shadow-[0_20px_40px_-12px_rgba(28,20,16,0.35)]">
+            <p class="text-3xl font-bold">86+</p>
+            <p class="text-xs text-stoneLight mt-0.5">Puntos SCA promedio</p>
+          </div>
+        </div>
+
+        <!-- Right: copy -->
+        <div class="reveal-right">
+          <p class="text-xs uppercase tracking-[0.22em] text-amber font-medium mb-5">Nuestra filosofía</p>
+          <h2 class="font-serif text-4xl md:text-5xl leading-tight text-espresso mb-6">
+            El café es un<br />argumento de origen.
+          </h2>
+          <p class="text-stone leading-relaxed mb-5 max-w-[58ch]">
+            Mórula nació de una obsesión simple: entender de dónde viene el sabor.
+            Viajamos dos veces al año a las fincas, conocemos a quienes cuidan la tierra,
+            y pagamos un precio que hace sostenible su trabajo.
+          </p>
+          <p class="text-stone leading-relaxed mb-10 max-w-[58ch]">
+            En nuestra tostadora de Madrid controlamos cada variable — temperatura de tambor,
+            curva de desarrollo, tiempo total — para que en tu taza llegue exactamente lo que
+            el agricultor cultivó con años de conocimiento.
+          </p>
+
+          <div class="grid grid-cols-2 gap-x-8 gap-y-6 pt-8 border-t border-espresso/10">
+            <div>
+              <p class="text-xl font-bold text-espresso mb-0.5">Etiopía · Colombia</p>
+              <p class="text-sm text-stone">Orígenes principales de temporada</p>
+            </div>
+            <div>
+              <p class="text-xl font-bold text-espresso mb-0.5">Lunes–Viernes</p>
+              <p class="text-sm text-stone">Tostado fresco cada semana</p>
+            </div>
+            <div>
+              <p class="text-xl font-bold text-espresso mb-0.5">+18 baristas</p>
+              <p class="text-sm text-stone">Certificados por la SCA</p>
+            </div>
+            <div>
+              <p class="text-xl font-bold text-espresso mb-0.5">0 aditivos</p>
+              <p class="text-sm text-stone">Solo café, agua y tiempo</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════
+       MENU — Asymmetric Bento grid
+       (NOT 3-equal-cols — BANNED)
+  ══════════════════════════════════ -->
+  <section id="menu" class="bg-creamDark py-24 md:py-36">
+    <div class="max-w-7xl mx-auto px-6 md:px-10">
+
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between mb-14 gap-6">
+        <div class="reveal">
+          <p class="text-xs uppercase tracking-[0.22em] text-amber font-medium mb-3">Lo que preparamos</p>
+          <h2 class="font-serif text-4xl md:text-5xl leading-tight text-espresso">
+            Menú de temporada
+          </h2>
+        </div>
+        <p class="reveal text-sm text-stone max-w-[40ch] leading-relaxed">
+          Cada preparación nace del perfil de sabor del grano. Ninguna receta es fija;
+          todo cambia cuando cambia el origen.
+        </p>
+      </div>
+
+      <!-- Asymmetric grid: [large | small] / [small | large] -->
+      <div class="grid grid-cols-1 md:grid-cols-[1.45fr_1fr] gap-5">
+
+        <!-- Card 1 — Large feature card -->
+        <div class="spotlight-card card-shimmer reveal delay-1 bg-cream rounded-3xl overflow-hidden group cursor-default">
+          <div class="aspect-[16/9] overflow-hidden">
+            <img src="https://picsum.photos/seed/morula-v60/900/506"
+                 alt="V60 vertido sobre taza blanca"
+                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+          </div>
+          <div class="p-7 md:p-8">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <p class="text-xs text-amber uppercase tracking-widest font-medium mb-2">Filter · V60</p>
+                <h3 class="font-serif text-2xl md:text-3xl text-espresso">Etiopía Anaerobic</h3>
+                <p class="text-stone text-sm leading-relaxed mt-3 max-w-[46ch]">
+                  Fermentación anaerobia de 72 h. Frutas rojas maduras, hibisco seco y un final limpio
+                  de bergamota que dura. El mejor de la temporada, sin discusión.
+                </p>
+              </div>
+              <span class="shrink-0 text-2xl font-bold text-espresso">€4.80</span>
+            </div>
+            <div class="flex flex-wrap gap-2 mt-5">
+              <span class="px-3 py-1 rounded-full bg-creamDark text-espresso text-xs font-medium">Frutos rojos</span>
+              <span class="px-3 py-1 rounded-full bg-creamDark text-espresso text-xs font-medium">Hibisco</span>
+              <span class="px-3 py-1 rounded-full bg-creamDark text-espresso text-xs font-medium">Bergamota</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right column: 2 stacked small cards -->
+        <div class="flex flex-col gap-5">
+
+          <!-- Card 2 -->
+          <div class="spotlight-card card-shimmer reveal delay-2 bg-espresso rounded-3xl overflow-hidden group cursor-default flex-1">
+            <div class="aspect-[16/9] overflow-hidden">
+              <img src="https://picsum.photos/seed/morula-espresso/700/393"
+                   alt="Espresso doppio con crema color caramelo"
+                   class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80" />
+            </div>
+            <div class="p-6">
+              <div class="flex items-start justify-between gap-3">
+                <div>
+                  <p class="text-xs text-amber uppercase tracking-widest font-medium mb-1.5">Espresso · Doppio</p>
+                  <h3 class="font-serif text-xl text-cream">Colombia Gesha Washed</h3>
+                  <p class="text-stoneLight text-xs leading-relaxed mt-2 max-w-[38ch]">
+                    Crema densa color avellana. Melocotón blanco y caña de azúcar. Acidez brillante
+                    que no cansa en veinte mililitros de concentración pura.
+                  </p>
+                </div>
+                <span class="shrink-0 text-xl font-bold text-cream">€3.20</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="spotlight-card card-shimmer reveal delay-3 bg-cream rounded-3xl overflow-hidden group cursor-default flex-1">
+            <div class="aspect-[16/9] overflow-hidden">
+              <img src="https://picsum.photos/seed/morula-latte/700/393"
+                   alt="Flat white con latte art en espiral"
+                   class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+            </div>
+            <div class="p-6">
+              <div class="flex items-start justify-between gap-3">
+                <div>
+                  <p class="text-xs text-amber uppercase tracking-widest font-medium mb-1.5">Leche · Flat White</p>
+                  <h3 class="font-serif text-xl text-espresso">Perú Cajamarca Natural</h3>
+                  <p class="text-stone text-xs leading-relaxed mt-2 max-w-[38ch]">
+                    Leche de micro-granja a 4 °C. El natural de Cajamarca aporta chocolate
+                    con leche y un regusto de nuez tostada que dura diez minutos.
+                  </p>
+                </div>
+                <span class="shrink-0 text-xl font-bold text-espresso">€4.20</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Wide bottom card — Batch Brew -->
+      <div class="spotlight-card card-shimmer reveal delay-4 mt-5 bg-amber rounded-3xl overflow-hidden group cursor-default
+                  grid grid-cols-1 md:grid-cols-[1fr_1.6fr] gap-0">
+        <div class="overflow-hidden">
+          <img src="https://picsum.photos/seed/morula-batch/800/420"
+               alt="Batch brew en cafetera de cristal"
+               class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-75
+                      aspect-[4/3] md:aspect-auto" />
+        </div>
+        <div class="p-8 md:p-10 flex flex-col justify-center">
+          <p class="text-xs text-cream/70 uppercase tracking-widest font-medium mb-2">Batch Brew · 1 litro</p>
+          <h3 class="font-serif text-2xl md:text-3xl text-cream mb-3">Rotación diaria de origen</h3>
+          <p class="text-cream/80 text-sm leading-relaxed max-w-[50ch]">
+            Cada mañana preparamos un lote de un origen distinto. Sin repetición semanal.
+            Tazas para llevar, precio de café de barrio, calidad de campeón de barismo.
+          </p>
+          <div class="flex items-center gap-4 mt-6">
+            <span class="text-3xl font-bold text-cream">€2.40</span>
+            <span class="text-cream/60 text-sm">· por taza · recarga gratis</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════
+       TESTIMONIOS — Offset card layout
+  ══════════════════════════════════ -->
+  <section id="testimonios" class="bg-cream py-24 md:py-36">
+    <div class="max-w-7xl mx-auto px-6 md:px-10">
+
+      <div class="reveal mb-14">
+        <p class="text-xs uppercase tracking-[0.22em] text-amber font-medium mb-3">Lo que dicen</p>
+        <h2 class="font-serif text-4xl md:text-5xl leading-tight text-espresso">
+          Sin guiones,<br />sin regalos.
+        </h2>
+      </div>
+
+      <!-- Asymmetric: first card offset upward -->
+      <div class="grid grid-cols-1 md:grid-cols-[1.1fr_1fr_0.9fr] gap-6 items-start">
+
+        <!-- Testimonial 1 -->
+        <div class="reveal delay-1 spotlight-card bg-espresso rounded-3xl p-8 md:p-9 md:-mt-8">
+          <svg class="text-amber mb-5" width="20" height="16" viewBox="0 0 20 16" fill="currentColor">
+            <path d="M0 16V9.6C0 4.267 2.667 1.067 8 0l1.067 1.6C6.4 2.4 4.8 4 4.267 6.4H8V16H0zm12 0V9.6C12 4.267 14.667 1.067 20 0l1.067 1.6C18.4 2.4 16.8 4 16.267 6.4H20V16h-8z"/>
+          </svg>
+          <p class="text-cream/90 text-base leading-relaxed mb-7">
+            "Llevo cinco años buscando un flat white que no me haga arrepentirme a la mitad.
+            En Mórula lo encontré en la primera visita. No he vuelto a buscar."
+          </p>
+          <div class="flex items-center gap-3 pt-5 border-t border-white/10">
+            <img src="https://api.dicebear.com/8.x/notionists/svg?seed=beatriz&backgroundColor=b07840&scale=120"
+                 alt="Beatriz Alcántara"
+                 class="w-10 h-10 rounded-full bg-amber" />
+            <div>
+              <p class="text-cream text-sm font-semibold">Beatriz Alcántara</p>
+              <p class="text-stoneLight text-xs">Diseñadora · cliente desde 2019</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial 2 -->
+        <div class="reveal delay-2 spotlight-card bg-creamDark rounded-3xl p-8 md:p-9">
+          <svg class="text-amber mb-5" width="20" height="16" viewBox="0 0 20 16" fill="currentColor">
+            <path d="M0 16V9.6C0 4.267 2.667 1.067 8 0l1.067 1.6C6.4 2.4 4.8 4 4.267 6.4H8V16H0zm12 0V9.6C12 4.267 14.667 1.067 20 0l1.067 1.6C18.4 2.4 16.8 4 16.267 6.4H20V16h-8z"/>
+          </svg>
+          <p class="text-espresso/85 text-base leading-relaxed mb-7">
+            "Pedí el Etiopía Anaerobic sin saber qué esperaba. Me serviste un vaso y tardé un minuto
+            en entender lo que estaba tomando. Fermentación anaerobia en V60. Impresionante."
+          </p>
+          <div class="flex items-center gap-3 pt-5 border-t border-espresso/10">
+            <img src="https://api.dicebear.com/8.x/notionists/svg?seed=marco&backgroundColor=2e1f14&scale=120"
+                 alt="Marco Ferretti"
+                 class="w-10 h-10 rounded-full bg-roast" />
+            <div>
+              <p class="text-espresso text-sm font-semibold">Marco Ferretti</p>
+              <p class="text-stone text-xs">Fotógrafo · Q Grader aficionado</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial 3 -->
+        <div class="reveal delay-3 spotlight-card bg-cream rounded-3xl p-8 md:p-9 md:mt-6 border border-espresso/10">
+          <svg class="text-amber mb-5" width="20" height="16" viewBox="0 0 20 16" fill="currentColor">
+            <path d="M0 16V9.6C0 4.267 2.667 1.067 8 0l1.067 1.6C6.4 2.4 4.8 4 4.267 6.4H8V16H0zm12 0V9.6C12 4.267 14.667 1.067 20 0l1.067 1.6C18.4 2.4 16.8 4 16.267 6.4H20V16h-8z"/>
+          </svg>
+          <p class="text-espresso/85 text-base leading-relaxed mb-7">
+            "Soy barista en otra ciudad. Vine en viaje de trabajo y acabé pasando la tarde aquí
+            preguntando sobre el proceso. El equipo sabe exactamente lo que hace."
+          </p>
+          <div class="flex items-center gap-3 pt-5 border-t border-espresso/10">
+            <img src="https://api.dicebear.com/8.x/notionists/svg?seed=nadia&backgroundColor=8c7b6b&scale=120"
+                 alt="Nadia Overbeck"
+                 class="w-10 h-10 rounded-full bg-stone" />
+            <div>
+              <p class="text-espresso text-sm font-semibold">Nadia Overbeck</p>
+              <p class="text-stone text-xs">Head Barista · Düsseldorf</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════
+       FOOTER
+  ══════════════════════════════════ -->
+  <footer class="bg-espresso text-cream py-16 md:py-20">
+    <div class="max-w-7xl mx-auto px-6 md:px-10">
+
+      <div class="grid grid-cols-1 md:grid-cols-[1.5fr_1fr_1fr_1fr] gap-10 md:gap-8 pb-12 border-b border-white/10">
+
+        <!-- Brand -->
+        <div>
+          <p class="font-serif text-2xl mb-3">Mórula</p>
+          <p class="text-stoneLight text-sm leading-relaxed max-w-[30ch]">
+            Del suelo a tu taza, sin rodeos.
+          </p>
+          <div class="flex gap-4 mt-6">
+            <!-- Instagram -->
+            <a href="#" aria-label="Instagram"
+               class="w-9 h-9 rounded-full border border-white/15 flex items-center justify-center
+                      hover:border-amber hover:text-amber transition-colors duration-200">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+              </svg>
+            </a>
+            <!-- Twitter/X -->
+            <a href="#" aria-label="Twitter"
+               class="w-9 h-9 rounded-full border border-white/15 flex items-center justify-center
+                      hover:border-amber hover:text-amber transition-colors duration-200">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            </a>
+            <!-- TikTok -->
+            <a href="#" aria-label="TikTok"
+               class="w-9 h-9 rounded-full border border-white/15 flex items-center justify-center
+                      hover:border-amber hover:text-amber transition-colors duration-200">
+              <svg width="14" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.78a4.85 4.85 0 0 1-1.01-.09z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Horario -->
+        <div>
+          <p class="text-xs uppercase tracking-widest text-stoneLight mb-4 font-medium">Horario</p>
+          <ul class="space-y-2 text-sm text-cream/80">
+            <li class="flex justify-between gap-4">
+              <span class="text-stoneLight">Lun–Vie</span>
+              <span>07:30 – 20:00</span>
+            </li>
+            <li class="flex justify-between gap-4">
+              <span class="text-stoneLight">Sábado</span>
+              <span>08:00 – 21:00</span>
+            </li>
+            <li class="flex justify-between gap-4">
+              <span class="text-stoneLight">Domingo</span>
+              <span>09:00 – 18:00</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Ubicación -->
+        <div>
+          <p class="text-xs uppercase tracking-widest text-stoneLight mb-4 font-medium">Dónde estamos</p>
+          <address class="not-italic text-sm text-cream/80 space-y-1">
+            <p>Calle de los Olmos 14</p>
+            <p>28004 Madrid</p>
+            <p class="pt-2 text-stoneLight">Metro: Alonso Martínez</p>
+          </address>
+        </div>
+
+        <!-- Contacto -->
+        <div>
+          <p class="text-xs uppercase tracking-widest text-stoneLight mb-4 font-medium">Contacto</p>
+          <ul class="space-y-2 text-sm text-cream/80">
+            <li>
+              <a href="mailto:hola@morulacoffee.es"
+                 class="hover:text-amber transition-colors duration-200">
+                hola@morulacoffee.es
+              </a>
+            </li>
+            <li>
+              <a href="tel:+34912847193"
+                 class="hover:text-amber transition-colors duration-200">
+                +34 912 847 193
+              </a>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between pt-8 gap-4 text-xs text-stoneLight">
+        <p>© 2024 Mórula Specialty Coffee S.L. — Madrid</p>
+        <div class="flex gap-6">
+          <a href="#" class="hover:text-cream transition-colors duration-200">Privacidad</a>
+          <a href="#" class="hover:text-cream transition-colors duration-200">Cookies</a>
+          <a href="#" class="hover:text-cream transition-colors duration-200">Aviso legal</a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+
+  <!-- ══════════════════════════════════
+       JS: IntersectionObserver reveal
+  ══════════════════════════════════ -->
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          // unobserve after first reveal for performance
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right')
+      .forEach(el => observer.observe(el));
+
+    // Trigger hero items immediately on load
+    window.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight) {
+          el.classList.add('visible');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
